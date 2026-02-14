@@ -1,7 +1,7 @@
-# MyModule.jl
+# GroverAlgorithm.jl
 
 ## Models
 
 ```@autodocs
-Modules = [MyModule]
+Modules = [GroverAlgorithm]
 ```
