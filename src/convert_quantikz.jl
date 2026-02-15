@@ -277,3 +277,4 @@ function to_tikz_picture(circuit::QuantumCircuit)::TikzPicture
         environment = "quantikz"
     )
 end
+export to_tikz_picture
