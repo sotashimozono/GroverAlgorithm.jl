@@ -1,9 +1,9 @@
 module GroverAlgorithm
 
 using LaTeXStrings, TikzPictures
-include("abstractquantumgate.jl")
-include("latexstrings.jl")
-include("convert_quantikz.jl")
+include("core/abstractquantumgate.jl")
+include("core/latexstrings.jl")
+include("core/convert_quantikz.jl")
 
 
 end # module GroverAlgorithm
