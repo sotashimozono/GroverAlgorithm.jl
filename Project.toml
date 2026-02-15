@@ -1,6 +1,6 @@
 name = "GroverAlgorithm"
 uuid = "480f6047-bde0-43c5-a5a8-f20cfea8349f"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["sota <shimozono-sota631@g.ecc.u-tokyo.ac.jp>"]
 
 [deps]
