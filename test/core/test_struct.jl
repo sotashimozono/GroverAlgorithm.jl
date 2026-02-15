@@ -25,7 +25,7 @@
         cg = ControlledGate(1, 5, :CZ)
         @test cg.control == 1
         @test cg.target == 5
-        
+
         # three-qubit gate fields should be correctly assigned
         tg = ThreeQubitGate(1, 2, 3, :Toffoli)
         @test tg.qubit1 == 1
@@ -68,7 +68,7 @@ end
     # 制御ビットとターゲットビットが同じ場合はエラーにしたい（将来的な実装への布石）
     # 現状の実装でエラーを投げないなら、将来の自分へのメモとして書く
     @test_throws ArgumentError ControlledGate(1, 1, :CNOT)
-    
+
     # 負のビット番号や 0 を禁止する
     @test_throws ArgumentError SingleQubitGate(0, :X)
     @test_throws ArgumentError SingleQubitGate(-1, :Z)

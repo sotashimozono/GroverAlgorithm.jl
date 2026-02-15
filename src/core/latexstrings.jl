@@ -12,59 +12,104 @@ If the gate type is not recognized, it returns the string representation of the 
 function gate_to_latex(gate_type::Symbol)::String
     gate_map = Dict(
         # Pauli gates
-        :X => "X", :Y => "Y", :Z => "Z", :iY => "iY",
-        :σx => "\\sigma_x", :σ1 => "\\sigma_1",
-        :σy => "\\sigma_y", :σ2 => "\\sigma_2",
-        :σz => "\\sigma_z", :σ3 => "\\sigma_3",
-        :iσy => "i\\sigma_y", :iσ2 => "i\\sigma_2",
-        
+        :X => "X",
+        :Y => "Y",
+        :Z => "Z",
+        :iY => "iY",
+        :σx => "\\sigma_x",
+        :σ1 => "\\sigma_1",
+        :σy => "\\sigma_y",
+        :σ2 => "\\sigma_2",
+        :σz => "\\sigma_z",
+        :σ3 => "\\sigma_3",
+        :iσy => "i\\sigma_y",
+        :iσ2 => "i\\sigma_2",
+
         # Standard gates
         :H => "H",
-        :T => "T", Symbol("π/8") => "T",
+        :T => "T",
+        Symbol("π/8") => "T",
         :Tdag => "T^\\dagger",
-        :S => "S", :Phase => "S", :P => "S",
+        :S => "S",
+        :Phase => "S",
+        :P => "S",
         :Sdag => "S^\\dagger",
         Symbol("√NOT") => "\\sqrt{X}",
-        
+
         # Projection operators
-        :Proj0 => "P_0", :ProjUp => "P_{\\uparrow}", :projUp => "P_{\\uparrow}",
-        :Proj1 => "P_1", :ProjDn => "P_{\\downarrow}", :projDn => "P_{\\downarrow}",
+        :Proj0 => "P_0",
+        :ProjUp => "P_{\\uparrow}",
+        :projUp => "P_{\\uparrow}",
+        :Proj1 => "P_1",
+        :ProjDn => "P_{\\downarrow}",
+        :projDn => "P_{\\downarrow}",
 
         # Parameterized gates
-        :Rx => "R_x", :Ry => "R_y", :Rz => "R_z", :Rn => "R_n",
-        :RX => "R_x", :RY => "R_y", :RZ => "R_z", :Rn̂ => "R_n",
-        :Rxx => "R_{xx}", :Ryy => "R_{yy}", :Rzz => "R_{zz}",
-        :RXX => "R_{xx}", :RYY => "R_{yy}", :RZZ => "R_{zz}",
+        :Rx => "R_x",
+        :Ry => "R_y",
+        :Rz => "R_z",
+        :Rn => "R_n",
+        :RX => "R_x",
+        :RY => "R_y",
+        :RZ => "R_z",
+        :Rn̂ => "R_n",
+        :Rxx => "R_{xx}",
+        :Ryy => "R_{yy}",
+        :Rzz => "R_{zz}",
+        :RXX => "R_{xx}",
+        :RYY => "R_{yy}",
+        :RZZ => "R_{zz}",
 
         # Spin operators
-        :Sz => "S_z", :Sᶻ => "S_z",
-        :Sx => "S_x", :Sˣ => "S_x",
-        :Sy => "S_y", :Sʸ => "S_y",
-        :iSy => "iS_y", :iSʸ => "iS_y",
-        Symbol("S+") => "S_+", Symbol("S⁺") => "S_+", :Splus => "S_+",
-        Symbol("S-") => "S_-", Symbol("S⁻") => "S_-", :Sminus => "S_-",
-        :S2 => "S^2", Symbol("S²") => "S^2",
-        
+        :Sz => "S_z",
+        :Sᶻ => "S_z",
+        :Sx => "S_x",
+        :Sˣ => "S_x",
+        :Sy => "S_y",
+        :Sʸ => "S_y",
+        :iSy => "iS_y",
+        :iSʸ => "iS_y",
+        Symbol("S+") => "S_+",
+        Symbol("S⁺") => "S_+",
+        :Splus => "S_+",
+        Symbol("S-") => "S_-",
+        Symbol("S⁻") => "S_-",
+        :Sminus => "S_-",
+        :S2 => "S^2",
+        Symbol("S²") => "S^2",
+
         # Two-qubit gates (for controlled versions)
-        :CNOT => "X", :CX => "X",
+        :CNOT => "X",
+        :CX => "X",
         :CY => "Y",
         :CZ => "Z",
-        :CPHASE => "P", :Cphase => "P",
-        
+        :CPHASE => "P",
+        :Cphase => "P",
+
         # Two-qubit non-controlled
-        :SWAP => "\\times", :Swap => "\\times",
-        Symbol("√SWAP") => "\\sqrt{SWAP}", Symbol("√Swap") => "\\sqrt{SWAP}",
-        :iSWAP => "iSWAP", :iSwap => "iSWAP",
-        Symbol("√iSWAP") => "\\sqrt{iSWAP}", Symbol("√iSwap") => "\\sqrt{iSWAP}",
-        
+        :SWAP => "\\times",
+        :Swap => "\\times",
+        Symbol("√SWAP") => "\\sqrt{SWAP}",
+        Symbol("√Swap") => "\\sqrt{SWAP}",
+        :iSWAP => "iSWAP",
+        :iSwap => "iSWAP",
+        Symbol("√iSWAP") => "\\sqrt{iSWAP}",
+        Symbol("√iSwap") => "\\sqrt{iSWAP}",
+
         # Three-qubit gates
-        :Toffoli => "\\text{TOF}", :CCNOT => "\\text{TOF}", :CCX => "\\text{TOF}", :TOFF => "\\text{TOF}",
-        :Fredkin => "\\text{FRDKN}", :CSWAP => "\\text{CSWAP}", :CSwap => "\\text{CSWAP}", :CS => "\\text{CS}",
-        
+        :Toffoli => "\\text{TOF}",
+        :CCNOT => "\\text{TOF}",
+        :CCX => "\\text{TOF}",
+        :TOFF => "\\text{TOF}",
+        :Fredkin => "\\text{FRDKN}",
+        :CSWAP => "\\text{CSWAP}",
+        :CSwap => "\\text{CSWAP}",
+        :CS => "\\text{CS}",
+
         # Four-qubit gates
         :CCCNOT => "\\text{CCCNOT}",
     )
-    
+
     return get(gate_map, gate_type, String(gate_type))
 end
 
@@ -131,7 +176,7 @@ function format_param(θ::Real)::String
             return "$(r)\\pi"
         end
     end
-    
+
     # π/nの形式かチェック
     for n in 2:16
         if abs(θ * n - π * round(θ * n / π)) < 1e-6
@@ -146,7 +191,7 @@ function format_param(θ::Real)::String
         end
     end
     # それ以外は小数表記
-    return string(round(θ, digits=3))
+    return string(round(θ; digits=3))
 end
 export format_param
 

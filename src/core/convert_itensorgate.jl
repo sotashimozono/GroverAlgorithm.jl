@@ -15,11 +15,11 @@ function to_itensor_op(gate::ParametricSingleGate, sites)
     t = gate.gate_type
     p = gate.params
     if t in [:Rx, :Ry, :Rz, :RX, :RY, :RZ]
-        return op(string(t), sites[gate.qubit]; θ = p[1])
+        return op(string(t), sites[gate.qubit]; θ=p[1])
     elseif t in [:Rn, :Rn̂]
-        return op(string(t), sites[gate.qubit]; θ = p[1], ϕ = p[2], λ = p[3])
+        return op(string(t), sites[gate.qubit]; θ=p[1], ϕ=p[2], λ=p[3])
     elseif t in [:Phase, :P, :S]
-        return op(string(t), sites[gate.qubit]; ϕ = p[1])
+        return op(string(t), sites[gate.qubit]; ϕ=p[1])
     end
     return op(string(t), sites[gate.qubit])
 end
@@ -32,9 +32,11 @@ function to_itensor_op(gate::ParametricControlledGate, sites)
     t = gate.gate_type
     p = gate.params
     if t in [:CRx, :CRy, :CRz, :CRX, :CRY, :CRZ]
-        return op(string(t), sites[gate.control], sites[gate.target]; θ = p[1])
+        return op(string(t), sites[gate.control], sites[gate.target]; θ=p[1])
     elseif t in [:CRn, :CRn̂]
-        return op(string(t), sites[gate.control], sites[gate.target]; θ = p[1], ϕ = p[2], λ = p[3])
+        return op(
+            string(t), sites[gate.control], sites[gate.target]; θ=p[1], ϕ=p[2], λ=p[3]
+        )
     end
     return op(string(t), sites[gate.control], sites[gate.target])
 end
@@ -46,17 +48,25 @@ function to_itensor_op(gate::ParametricTwoQubitGate, sites)
     p = gate.params
     # Rxx, Ryy, Rzz は引数 ϕ を取る
     if t in [:Rxx, :Ryy, :Rzz, :RXX, :RYY, :RZZ]
-        return op(string(t), sites[gate.qubit1], sites[gate.qubit2]; ϕ = p[1])
+        return op(string(t), sites[gate.qubit1], sites[gate.qubit2]; ϕ=p[1])
     end
     return op(string(t), sites[gate.qubit1], sites[gate.qubit2])
 end
 
 # --- Multi Qubit ---
 function to_itensor_op(gate::ThreeQubitGate, sites)
-    return op(string(gate.gate_type), sites[gate.qubit1], sites[gate.qubit2], sites[gate.qubit3])
+    return op(
+        string(gate.gate_type), sites[gate.qubit1], sites[gate.qubit2], sites[gate.qubit3]
+    )
 end
 function to_itensor_op(gate::FourQubitGate, sites)
-    return op(string(gate.gate_type), sites[gate.qubit1], sites[gate.qubit2], sites[gate.qubit3], sites[gate.qubit4])
+    return op(
+        string(gate.gate_type),
+        sites[gate.qubit1],
+        sites[gate.qubit2],
+        sites[gate.qubit3],
+        sites[gate.qubit4],
+    )
 end
 
 """
@@ -75,11 +85,15 @@ Simulates the quantum circuit using ITensors.
 """
 function execute_circuit(circuit::QuantumCircuit, sites::Vector{<:Index}; init_state="0")
     if circuit.nqubits != length(sites)
-        throw(ArgumentError("Circuit qubit count ($(circuit.nqubits)) must match sites count ($(length(sites)))"))
+        throw(
+            ArgumentError(
+                "Circuit qubit count ($(circuit.nqubits)) must match sites count ($(length(sites)))",
+            ),
+        )
     end
     ops = [to_itensor_op(g, sites) for g in circuit.gates]
     psi = MPS(sites, init_state)
-    psi_final = apply(ops, psi; cutoff = 1e-15)
+    psi_final = apply(ops, psi; cutoff=1e-15)
     return psi_final
 end
 export execute_circuit

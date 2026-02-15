@@ -27,7 +27,7 @@ end
 # for ParametricSingleGate
 function add_gate_column!(qubit_lines, gate::ParametricSingleGate, nqubits::Int)
     gate_symbol = gate_to_latex(gate.gate_type, gate.params)
-    
+
     for i in 1:nqubits
         if i == gate.qubit
             push!(qubit_lines[i], "\\gate{$gate_symbol}")
@@ -41,7 +41,7 @@ end
 function add_gate_column!(qubit_lines, gate::ControlledGate, nqubits::Int)
     ctrl = gate.control
     targ = gate.target
-    
+
     for i in 1:nqubits
         if i == ctrl
             offset = targ - ctrl
@@ -60,7 +60,7 @@ function add_gate_column!(qubit_lines, gate::ParametricControlledGate, nqubits::
     ctrl = gate.control
     targ = gate.target
     gate_symbol = gate_to_latex(gate.gate_type, gate.params)
-    
+
     for i in 1:nqubits
         if i == ctrl
             offset = targ - ctrl
@@ -77,7 +77,7 @@ end
 function add_gate_column!(qubit_lines, gate::TwoQubitGate, nqubits::Int)
     q1 = min(gate.qubit1, gate.qubit2)
     q2 = max(gate.qubit1, gate.qubit2)
-    
+
     if gate.gate_type in [:SWAP, :Swap]
         for i in 1:nqubits
             if i == q1
@@ -88,7 +88,9 @@ function add_gate_column!(qubit_lines, gate::TwoQubitGate, nqubits::Int)
                 push!(qubit_lines[i], "\\qw")
             end
         end
-    elseif gate.gate_type in [Symbol("√SWAP"), Symbol("√Swap"), :iSWAP, :iSwap, Symbol("√iSWAP"), Symbol("√iSwap")]
+    elseif gate.gate_type in [
+        Symbol("√SWAP"), Symbol("√Swap"), :iSWAP, :iSwap, Symbol("√iSWAP"), Symbol("√iSwap")
+    ]
         gate_label = gate_to_latex(gate.gate_type)
         for i in 1:nqubits
             if i == q1
@@ -118,7 +120,7 @@ function add_gate_column!(qubit_lines, gate::ParametricTwoQubitGate, nqubits::In
     q1 = min(gate.qubit1, gate.qubit2)
     q2 = max(gate.qubit1, gate.qubit2)
     gate_label = gate_to_latex(gate.gate_type, gate.params)
-    
+
     for i in 1:nqubits
         if i == q1
             push!(qubit_lines[i], "\\gate[2]{$gate_label}")
@@ -133,7 +135,7 @@ end
 # for ThreeQubitGate
 function add_gate_column!(qubit_lines, gate::ThreeQubitGate, nqubits::Int)
     qubits = sort([gate.qubit1, gate.qubit2, gate.qubit3])
-    
+
     if gate.gate_type in [:Toffoli, :CCNOT, :CCX, :TOFF]
         # Toffoli: 最初の2つがコントロール、最後がターゲット
         ctrl1, ctrl2, targ = qubits
@@ -180,7 +182,7 @@ end
 # for FourQubitGate
 function add_gate_column!(qubit_lines, gate::FourQubitGate, nqubits::Int)
     qubits = sort([gate.qubit1, gate.qubit2, gate.qubit3, gate.qubit4])
-    
+
     if gate.gate_type == :CCCNOT
         # CCCNOT: 最初の3つがコントロール、最後がターゲット
         ctrl1, ctrl2, ctrl3, targ = qubits
@@ -228,11 +230,11 @@ This function:
 function to_quantikz(circuit::QuantumCircuit)::String
     nqubits = circuit.nqubits
     qubit_lines = [String[] for _ in 1:nqubits]
-    
+
     for gate in circuit.gates
         add_gate_column!(qubit_lines, gate, nqubits)
     end
-    
+
     lines = []
     push!(lines, "\\begin{quantikz}")
     for i in 1:nqubits
@@ -243,7 +245,7 @@ function to_quantikz(circuit::QuantumCircuit)::String
     end
     quantikz_code = join(lines, " \\\\\n")
     quantikz_code *= "\n\\end{quantikz}"
-    
+
     return quantikz_code
 end
 export to_quantikz
@@ -256,25 +258,25 @@ The function processes each gate in the circuit and constructs the corresponding
 function to_tikz_picture(circuit::QuantumCircuit)::TikzPicture
     nqubits = circuit.nqubits
     qubit_lines = [String[] for _ in 1:nqubits]
-    
+
     for gate in circuit.gates
         add_gate_column!(qubit_lines, gate, nqubits)
     end
-    
+
     processed_lines = []
     for i in 1:nqubits
         filtered = filter(s -> s != "", qubit_lines[i])
         line_data = join(filtered, " \\& ")
         push!(processed_lines, "\\lstick{\\ket{q_$i}} \\& " * line_data * " \\& \\qw")
     end
-    
+
     circuit_body = join(processed_lines, " \\\\\n")
-    
+
     return TikzPicture(
-        circuit_body,
-        preamble = "\\usepackage{quantikz}",
-        options = "ampersand replacement=\\&",
-        environment = "quantikz"
+        circuit_body;
+        preamble="\\usepackage{quantikz}",
+        options="ampersand replacement=\\&",
+        environment="quantikz",
     )
 end
 export to_tikz_picture
