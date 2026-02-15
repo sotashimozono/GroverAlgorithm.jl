@@ -35,7 +35,7 @@ function gate_to_latex(gate_type::Symbol)::String
         :RX => "R_x", :RY => "R_y", :RZ => "R_z", :Rn̂ => "R_n",
         :Rxx => "R_{xx}", :Ryy => "R_{yy}", :Rzz => "R_{zz}",
         :RXX => "R_{xx}", :RYY => "R_{yy}", :RZZ => "R_{zz}",
-        
+
         # Spin operators
         :Sz => "S_z", :Sᶻ => "S_z",
         :Sx => "S_x", :Sˣ => "S_x",

@@ -247,3 +247,33 @@ function to_quantikz(circuit::QuantumCircuit)::String
     return quantikz_code
 end
 export to_quantikz
+
+"""
+    to_tikz_picture(circuit::QuantumCircuit) -> TikzPicture
+Convert a `QuantumCircuit` object into a `TikzPicture` that represents the quantum circuit diagram using the `quantikz` LaTeX package.
+The function processes each gate in the circuit and constructs the corresponding LaTeX code for each qubit line, ensuring proper alignment and formatting for multi-qubit gates. The resulting `TikzPicture` can be rendered in LaTeX documents to visualize the quantum circuit.
+"""
+function to_tikz_picture(circuit::QuantumCircuit)::TikzPicture
+    nqubits = circuit.nqubits
+    qubit_lines = [String[] for _ in 1:nqubits]
+    
+    for gate in circuit.gates
+        add_gate_column!(qubit_lines, gate, nqubits)
+    end
+    
+    processed_lines = []
+    for i in 1:nqubits
+        filtered = filter(s -> s != "", qubit_lines[i])
+        line_data = join(filtered, " \\& ")
+        push!(processed_lines, "\\lstick{\\ket{q_$i}} \\& " * line_data * " \\& \\qw")
+    end
+    
+    circuit_body = join(processed_lines, " \\\\\n")
+    
+    return TikzPicture(
+        circuit_body,
+        preamble = "\\usepackage{quantikz}",
+        options = "ampersand replacement=\\&",
+        environment = "quantikz"
+    )
+end
