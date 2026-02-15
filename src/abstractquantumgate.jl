@@ -145,3 +145,30 @@ struct FourQubitGate <: AbstractQuantumGate
     gate_type::Symbol  # CCCNOT
 end
 export FourQubitGate
+
+# ============================================
+# QuantumCircuit構造体
+# ============================================
+"""
+    QuantumCircuit
+Represents a quantum circuit consisting of a fixed number of qubits and a sequence of gates.
+
+Fields
+- `nqubits::Int`: The total number of qubits in the circuit.
+- `gates::Vector{AbstractQuantumGate}`: A list of quantum gates to be applied sequentially.
+"""
+struct QuantumCircuit
+    nqubits::Int
+    gates::Vector{AbstractQuantumGate}
+end
+
+"""
+    add_gate!(circuit::QuantumCircuit, gate::AbstractQuantumGate)
+
+Appends a quantum gate to the end of the circuit's gate sequence.
+Returns the modified `QuantumCircuit` object to allow for method chaining.
+"""
+function add_gate!(circuit::QuantumCircuit, gate::AbstractQuantumGate)
+    push!(circuit.gates, gate)
+    return circuit
+end
