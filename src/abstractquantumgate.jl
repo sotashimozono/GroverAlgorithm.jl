@@ -5,7 +5,7 @@ Provides common interfaces between `ITensors` calcurations and `quantikz` repres
 [Available gates in ITensor Library](https://docs.itensor.org/ITensorMPS/stable/IncludedSiteTypes.html)
 """
 abstract type AbstractQuantumGate end
-
+export AbstractQuantumGate
 # ============================================
 # 1量子ビットゲート
 # ============================================
@@ -23,7 +23,7 @@ struct SingleQubitGate <: AbstractQuantumGate
     qubit::Int
     gate_type::Symbol
 end
-
+export SingleQubitGate
 """
     ParametricSingleGate(qubit::Int, gate_type::Symbol, params::Vector{Float64})
 
@@ -38,7 +38,7 @@ struct ParametricSingleGate <: AbstractQuantumGate
     gate_type::Symbol
     params::Vector{Float64}  # θ, ϕ, λなどのパラメータ
 end
-
+export ParametricSingleGate
 # ============================================
 # 2量子ビットゲート
 # ============================================
@@ -57,6 +57,7 @@ struct ControlledGate <: AbstractQuantumGate
     target::Int
     gate_type::Symbol
 end
+export ControlledGate
 
 """
     ParametricControlledGate(control::Int, target::Int, gate_type::Symbol, params::Vector{Float64})
@@ -72,6 +73,7 @@ struct ParametricControlledGate <: AbstractQuantumGate
     gate_type::Symbol
     params::Vector{Float64}
 end
+export ParametricControlledGate
 
 """
     TwoQubitGate(qubit1::Int, qubit2::Int, gate_type::Symbol)
@@ -87,6 +89,7 @@ struct TwoQubitGate <: AbstractQuantumGate
     qubit2::Int
     gate_type::Symbol  # SWAP, iSWAP, etc.
 end
+export TwoQubitGate
 
 """
     ParametricTwoQubitGate(qubit1::Int, qubit2::Int, gate_type::Symbol, params::Vector{Float64})
@@ -101,6 +104,7 @@ struct ParametricTwoQubitGate <: AbstractQuantumGate
     gate_type::Symbol  # Rxx, Ryy, Rzz
     params::Vector{Float64}
 end
+export ParametricTwoQubitGate
 
 # ============================================
 # 3量子ビットゲート
@@ -120,6 +124,7 @@ struct ThreeQubitGate <: AbstractQuantumGate
     qubit3::Int
     gate_type::Symbol  # Toffoli, Fredkin
 end
+export ThreeQubitGate
 
 # ============================================
 # 4量子ビットゲート
@@ -139,3 +144,4 @@ struct FourQubitGate <: AbstractQuantumGate
     qubit4::Int
     gate_type::Symbol  # CCCNOT
 end
+export FourQubitGate

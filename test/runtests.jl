@@ -1,7 +1,7 @@
 ENV["GKSwstype"] = "100"
 
 using GroverAlgorithm, Test
-const dirs = []
+const dirs = ["core/"]
 
 const FIG_BASE = joinpath(pkgdir(GroverAlgorithm), "docs", "src", "assets")
 const PATHS = Dict()
