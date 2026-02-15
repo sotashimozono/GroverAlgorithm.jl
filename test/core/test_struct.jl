@@ -34,33 +34,30 @@
         fg = FourQubitGate(1, 2, 3, 4, :CCCNOT)
         @test fg.qubit4 == 4
     end
+end
+@testset "QuantumCircuit Struct" begin
     n = 5
     circuit = QuantumCircuit(n, AbstractQuantumGate[])
     @test circuit.nqubits == 5
     @test isempty(circuit.gates)
 
-    # 2. Functional Test: add_gate!
     @testset "Adding Gates" begin
-        # Add a single qubit gate
         g1 = SingleQubitGate(1, :X)
         add_gate!(circuit, g1)
         @test length(circuit.gates) == 1
         @test circuit.gates[end] === g1
 
-        # Add a controlled gate
         g2 = ControlledGate(1, 2, :CNOT)
         add_gate!(circuit, g2)
         @test length(circuit.gates) == 2
         @test circuit.gates[2].gate_type == :CNOT
 
-        # Check method chaining
         g3 = SingleQubitGate(3, :H)
         returned_circuit = add_gate!(circuit, g3)
         @test returned_circuit === circuit
         @test length(circuit.gates) == 3
     end
 
-    # 3. Structural Integrity
     @testset "Type Constraints" begin
         # Ensure it only accepts subtypes of AbstractQuantumGate
         @test circuit.gates isa Vector{AbstractQuantumGate}
