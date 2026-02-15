@@ -147,7 +147,7 @@ end
 export FourQubitGate
 
 # ============================================
-# QuantumCircuit構造体
+# QuantumCircuitStructure
 # ============================================
 """
     QuantumCircuit
@@ -161,6 +161,7 @@ struct QuantumCircuit
     nqubits::Int
     gates::Vector{AbstractQuantumGate}
 end
+export QuantumCircuit
 
 """
     add_gate!(circuit::QuantumCircuit, gate::AbstractQuantumGate)
@@ -172,3 +173,4 @@ function add_gate!(circuit::QuantumCircuit, gate::AbstractQuantumGate)
     push!(circuit.gates, gate)
     return circuit
 end
+export add_gate!
