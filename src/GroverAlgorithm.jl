@@ -1,5 +1,5 @@
 module GroverAlgorithm
 
-greet() = print("Hello World!")
+include("abstractquantumgate.jl")
 
 end # module GroverAlgorithm
