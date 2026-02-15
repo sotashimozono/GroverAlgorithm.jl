@@ -1,6 +1,16 @@
 {
-  "name": "Julia Env",
-  // template.jl が公開したイメージを直接参照
-  "image": "ghcr.io/sotashimozono/template.jl:latest",
+  "name": "Julia Quantum Env",
+  "build": {
+    "dockerfile": "Dockerfile" // 同じディレクトリにあるDockerfileを使う
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "julialang.language-julia",
+        "tamasfe.even-better-toml",
+        "mgt19937.tikzjax-viewer" // TikZのプレビューに便利
+      ]
+    }
+  },
   "postCreateCommand": "julia --project=. -e 'using Pkg; Pkg.instantiate()'"
 }
