@@ -21,7 +21,7 @@ mkpath.(values(PATHS))
             @test false
         else
             for f in files
-                @testset "f" begin
+                @testset "$f" begin
                     filepath = joinpath(dirpath, f)
                     @time begin
                         println("  Including $(filepath)")
