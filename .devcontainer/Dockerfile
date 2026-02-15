@@ -1,9 +1,13 @@
 FROM julia:1.12
 
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    git \
+    texlive-latex-extra \
+    texlive-pictures \
+    pdf2svg \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN julia -e 'using Pkg; Pkg.add(["IJulia", "Revise", "JuliaFormatter"]); Pkg.precompile()'
-
+RUN julia -e 'using Pkg; Pkg.add(["IJulia", "Revise", "JuliaFormatter", "TikZJax", "Literate", "Documenter"]); Pkg.precompile()'
 # 4. startup.jl（Revise）
 # ユーザーのホームディレクトリに配置します
 RUN mkdir -p /root/.julia/config && \

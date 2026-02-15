@@ -3,6 +3,14 @@ uuid = "480f6047-bde0-43c5-a5a8-f20cfea8349f"
 version = "0.1.0"
 authors = ["sota <shimozono-sota631@g.ecc.u-tokyo.ac.jp>"]
 
+[deps]
+ITensorMPS = "0d1a4710-d33b-49a5-8f18-73bdf49b47e2"
+ITensors = "9136182c-28ba-11e9-034c-db9fb085ebd5"
+
+[compat]
+ITensorMPS = "0.3.26"
+ITensors = "0.9.18"
+
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
