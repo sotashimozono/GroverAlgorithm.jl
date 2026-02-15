@@ -1,7 +1,7 @@
 ENV["GKSwstype"] = "100"
 
 using GroverAlgorithm, Test
-const dirs = []
+const dirs = ["core/"]
 
 const FIG_BASE = joinpath(pkgdir(GroverAlgorithm), "docs", "src", "assets")
 const PATHS = Dict()
@@ -21,7 +21,7 @@ mkpath.(values(PATHS))
             @test false
         else
             for f in files
-                @testset "f" begin
+                @testset "$f" begin
                     filepath = joinpath(dirpath, f)
                     @time begin
                         println("  Including $(filepath)")
