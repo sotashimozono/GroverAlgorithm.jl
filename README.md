@@ -11,3 +11,12 @@
 
 This module is based on following paper.  
 Grover, L. K. (1996, July). A fast quantum mechanical algorithm for database search. In Proceedings of the twenty-eighth annual ACM symposium on Theory of computing (pp. 212-219).
+
+## memo
+
+とりあえず、gateとかの実装は軽くしました
+つぎのtodoとしては
+- toffoli gateとか実装してみます？
+- それをassetとして書き出してみます？
+- jsonとかに分離できるといいかなぁ
+- そこまでできると完璧だね
