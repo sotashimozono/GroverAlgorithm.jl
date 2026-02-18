@@ -147,19 +147,148 @@ end
 export FourQubitGate
 
 # ============================================
+# N-Qubit Gates (General Multi-Qubit Gates)
+# ============================================
+
+"""
+    MultiQubitGate(qubits::Vector{Int}, gate_type::Symbol)
+
+General n-qubit gate acting on an arbitrary number of qubits.
+This allows for gates acting on more than 4 qubits or custom multi-qubit operations.
+
+# Fields
+- `qubits::Vector{Int}`: Vector of qubit indices (1-based) that the gate acts on.
+- `gate_type::Symbol`: The type of gate to apply.
+
+# Examples
+```julia
+# 5-qubit controlled gate
+gate = MultiQubitGate([1, 2, 3, 4, 5], :C4NOT)
+
+# Custom multi-qubit gate
+gate = MultiQubitGate([1, 3, 5, 7], :CustomGate)
+```
+
+# Notes
+- The interpretation of `gate_type` depends on the number of qubits and the specific gate.
+- For standard gates with 1-4 qubits, prefer using the specific gate types for clarity.
+- This is useful for gates with 5 or more qubits, or for custom multi-qubit operations.
+"""
+struct MultiQubitGate <: AbstractQuantumGate
+    qubits::Vector{Int}
+    gate_type::Symbol
+
+    function MultiQubitGate(qubits::Vector{Int}, gate_type::Symbol)
+        if isempty(qubits)
+            throw(ArgumentError("MultiQubitGate requires at least one qubit"))
+        end
+        if length(unique(qubits)) != length(qubits)
+            throw(
+                ArgumentError(
+                    "Qubit indices must be unique, got duplicate qubits in $qubits"
+                ),
+            )
+        end
+        if any(q -> q <= 0, qubits)
+            throw(ArgumentError("All qubit indices must be positive, got $qubits"))
+        end
+        new(qubits, gate_type)
+    end
+end
+export MultiQubitGate
+
+"""
+    ParametricMultiQubitGate(qubits::Vector{Int}, gate_type::Symbol, params::Vector{Float64})
+
+General n-qubit parametric gate acting on an arbitrary number of qubits with parameters.
+
+# Fields
+- `qubits::Vector{Int}`: Vector of qubit indices (1-based) that the gate acts on.
+- `gate_type::Symbol`: The type of gate to apply.
+- `params::Vector{Float64}`: Parameters for the gate (e.g., rotation angles).
+
+# Examples
+```julia
+# Multi-qubit rotation gate
+gate = ParametricMultiQubitGate([1, 2, 3], :MultiRz, [π/4])
+
+# Custom parametric gate
+gate = ParametricMultiQubitGate([1, 3, 5], :CustomRotation, [π/2, π/4, π/8])
+```
+"""
+struct ParametricMultiQubitGate <: AbstractQuantumGate
+    qubits::Vector{Int}
+    gate_type::Symbol
+    params::Vector{Float64}
+
+    function ParametricMultiQubitGate(
+        qubits::Vector{Int}, gate_type::Symbol, params::Vector{Float64}
+    )
+        if isempty(qubits)
+            throw(ArgumentError("ParametricMultiQubitGate requires at least one qubit"))
+        end
+        if length(unique(qubits)) != length(qubits)
+            throw(
+                ArgumentError(
+                    "Qubit indices must be unique, got duplicate qubits in $qubits"
+                ),
+            )
+        end
+        if any(q -> q <= 0, qubits)
+            throw(ArgumentError("All qubit indices must be positive, got $qubits"))
+        end
+        new(qubits, gate_type, params)
+    end
+end
+export ParametricMultiQubitGate
+
+# ============================================
 # QuantumCircuitStructure
 # ============================================
 """
     QuantumCircuit
+
 Represents a quantum circuit consisting of a fixed number of qubits and a sequence of gates.
 
 Fields
 - `nqubits::Int`: The total number of qubits in the circuit.
 - `gates::Vector{AbstractQuantumGate}`: A list of quantum gates to be applied sequentially.
+- `initial_states::Vector{AbstractInitialState}`: Initial state specification for each qubit.
+  Defaults to `[BasisState("0")]` for all qubits if not specified.
+
+# Initial States Usage
+The `initial_states` field can be specified in two ways:
+1. **Single state for all qubits**: Use a vector with one element
+   ```julia
+   initial = AbstractInitialState[BasisState("0")]  # All qubits in |0⟩
+   initial = AbstractInitialState[ProductState(["0", "1", "+"])]  # Qubits in |0⟩, |1⟩, |+⟩
+   ```
+2. **Per-qubit states**: Use a vector with one element per qubit
+   ```julia
+   initial = AbstractInitialState[BasisState("0"), BasisState("1")]  # First qubit |0⟩, second |1⟩
+   ```
+
+Note: ProductState should be used as a single element, not within a multi-element vector.
 """
 struct QuantumCircuit
     nqubits::Int
     gates::Vector{AbstractQuantumGate}
+    initial_states::Vector{AbstractInitialState}
+
+    # Constructor with default initial states
+    function QuantumCircuit(nqubits::Int, gates::Vector{AbstractQuantumGate})
+        initial_states = [BasisState("0")]
+        new(nqubits, gates, initial_states)
+    end
+
+    # Constructor with explicit initial states
+    function QuantumCircuit(
+        nqubits::Int,
+        gates::Vector{AbstractQuantumGate},
+        initial_states::Vector{AbstractInitialState},
+    )
+        new(nqubits, gates, initial_states)
+    end
 end
 export QuantumCircuit
 

@@ -27,7 +27,20 @@ makedocs(;
         assets=["assets/favicon.ico"],
     ),
     modules=[GroverAlgorithm],
-    pages=["Home" => "index.md"],
+    pages=[
+        "Home" => "index.md",
+        "Getting Started" => "getting_started.md",
+        "Core Concepts" => [
+            "Quantum Gates and Circuits" => "structures.md",
+            "Initial States" => "initialstates.md",
+            "Measurements" => "measurements.md",
+        ],
+        "Usage" => [
+            "ITensor Conversion" => "itensor_conversion.md",
+            "Quantikz Visualization" => "quantikz_visualization.md",
+        ],
+        "Examples and Tutorials" => "examples.md",
+    ],
 )
 
 deploydocs(; repo="github.com/sotashimozono/GroverAlgorithm.jl.git", devbranch="main")

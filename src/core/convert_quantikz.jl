@@ -222,7 +222,8 @@ Generates a complete LaTeX string wrapped in a `quantikz` environment.
 This function:
 1. Iterates through all gates in the `circuit`.
 2. Builds an internal representation of columns for each qubit.
-3. Joins the commands with `&` separators and wraps them in LaTeX boilerplate.
+3. Uses initial state labels from `circuit.initial_states` for qubit labels.
+4. Joins the commands with `&` separators and wraps them in LaTeX boilerplate.
 
 # Returns
 - A `String` containing the full LaTeX source code.
@@ -238,10 +239,24 @@ function to_quantikz(circuit::QuantumCircuit)::String
     lines = []
     push!(lines, "\\begin{quantikz}")
     for i in 1:nqubits
+        # Get the label for this qubit from initial_states
+        if length(circuit.initial_states) == 1
+            # Single state for all qubits
+            label = to_latex_label(circuit.initial_states[1], i)
+        else
+            # Individual state for each qubit
+            if i <= length(circuit.initial_states)
+                label = to_latex_label(circuit.initial_states[i], i)
+            else
+                # Fallback to default
+                label = "\\ket{q_$i}"
+            end
+        end
+
         # 空文字列をフィルタ（マルチ量子ビットゲートのスパン部分）
         filtered = filter(s -> s != "", qubit_lines[i])
         line = join(filtered, " & ")
-        push!(lines, "\\lstick{\\ket{q_$i}} & " * line * " & \\qw")
+        push!(lines, "\\lstick{$label} & " * line * " & \\qw")
     end
     quantikz_code = join(lines, " \\\\\n")
     quantikz_code *= "\n\\end{quantikz}"
@@ -252,8 +267,11 @@ export to_quantikz
 
 """
     to_tikz_picture(circuit::QuantumCircuit) -> TikzPicture
+
 Convert a `QuantumCircuit` object into a `TikzPicture` that represents the quantum circuit diagram using the `quantikz` LaTeX package.
-The function processes each gate in the circuit and constructs the corresponding LaTeX code for each qubit line, ensuring proper alignment and formatting for multi-qubit gates. The resulting `TikzPicture` can be rendered in LaTeX documents to visualize the quantum circuit.
+The function processes each gate in the circuit and constructs the corresponding LaTeX code for each qubit line, 
+using initial state labels from `circuit.initial_states`, ensuring proper alignment and formatting for multi-qubit gates.
+The resulting `TikzPicture` can be rendered in LaTeX documents to visualize the quantum circuit.
 """
 function to_tikz_picture(circuit::QuantumCircuit)::TikzPicture
     nqubits = circuit.nqubits
@@ -265,9 +283,23 @@ function to_tikz_picture(circuit::QuantumCircuit)::TikzPicture
 
     processed_lines = []
     for i in 1:nqubits
+        # Get the label for this qubit from initial_states
+        if length(circuit.initial_states) == 1
+            # Single state for all qubits
+            label = to_latex_label(circuit.initial_states[1], i)
+        else
+            # Individual state for each qubit
+            if i <= length(circuit.initial_states)
+                label = to_latex_label(circuit.initial_states[i], i)
+            else
+                # Fallback to default
+                label = "\\ket{q_$i}"
+            end
+        end
+
         filtered = filter(s -> s != "", qubit_lines[i])
         line_data = join(filtered, " \\& ")
-        push!(processed_lines, "\\lstick{\\ket{q_$i}} \\& " * line_data * " \\& \\qw")
+        push!(processed_lines, "\\lstick{$label} \\& " * line_data * " \\& \\qw")
     end
 
     circuit_body = join(processed_lines, " \\\\\n")

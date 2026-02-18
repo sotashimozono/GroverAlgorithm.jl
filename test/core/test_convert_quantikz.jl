@@ -74,7 +74,8 @@ using LaTeXStrings, TikzPictures
         # to_quantikz
         latex = to_quantikz(circ)
         @test occursin("\\begin{quantikz}", latex)
-        @test occursin("\\lstick{\\ket{q_1}}", latex)
+        # Now uses initial state labels (defaults to |0⟩)
+        @test occursin("\\lstick{\\ket{0}}", latex)
         @test occursin("\\gate{H}", latex)
         @test occursin("\\ctrl{1}", latex)
 
