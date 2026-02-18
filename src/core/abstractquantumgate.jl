@@ -147,6 +147,92 @@ end
 export FourQubitGate
 
 # ============================================
+# N-Qubit Gates (General Multi-Qubit Gates)
+# ============================================
+
+"""
+    MultiQubitGate(qubits::Vector{Int}, gate_type::Symbol)
+
+General n-qubit gate acting on an arbitrary number of qubits.
+This allows for gates acting on more than 4 qubits or custom multi-qubit operations.
+
+# Fields
+- `qubits::Vector{Int}`: Vector of qubit indices (1-based) that the gate acts on.
+- `gate_type::Symbol`: The type of gate to apply.
+
+# Examples
+```julia
+# 5-qubit controlled gate
+gate = MultiQubitGate([1, 2, 3, 4, 5], :C4NOT)
+
+# Custom multi-qubit gate
+gate = MultiQubitGate([1, 3, 5, 7], :CustomGate)
+```
+
+# Notes
+- The interpretation of `gate_type` depends on the number of qubits and the specific gate.
+- For standard gates with 1-4 qubits, prefer using the specific gate types for clarity.
+- This is useful for gates with 5 or more qubits, or for custom multi-qubit operations.
+"""
+struct MultiQubitGate <: AbstractQuantumGate
+    qubits::Vector{Int}
+    gate_type::Symbol
+    
+    function MultiQubitGate(qubits::Vector{Int}, gate_type::Symbol)
+        if isempty(qubits)
+            throw(ArgumentError("MultiQubitGate requires at least one qubit"))
+        end
+        if length(unique(qubits)) != length(qubits)
+            throw(ArgumentError("Qubit indices must be unique, got duplicate qubits in $qubits"))
+        end
+        if any(q -> q <= 0, qubits)
+            throw(ArgumentError("All qubit indices must be positive, got $qubits"))
+        end
+        new(qubits, gate_type)
+    end
+end
+export MultiQubitGate
+
+"""
+    ParametricMultiQubitGate(qubits::Vector{Int}, gate_type::Symbol, params::Vector{Float64})
+
+General n-qubit parametric gate acting on an arbitrary number of qubits with parameters.
+
+# Fields
+- `qubits::Vector{Int}`: Vector of qubit indices (1-based) that the gate acts on.
+- `gate_type::Symbol`: The type of gate to apply.
+- `params::Vector{Float64}`: Parameters for the gate (e.g., rotation angles).
+
+# Examples
+```julia
+# Multi-qubit rotation gate
+gate = ParametricMultiQubitGate([1, 2, 3], :MultiRz, [π/4])
+
+# Custom parametric gate
+gate = ParametricMultiQubitGate([1, 3, 5], :CustomRotation, [π/2, π/4, π/8])
+```
+"""
+struct ParametricMultiQubitGate <: AbstractQuantumGate
+    qubits::Vector{Int}
+    gate_type::Symbol
+    params::Vector{Float64}
+    
+    function ParametricMultiQubitGate(qubits::Vector{Int}, gate_type::Symbol, params::Vector{Float64})
+        if isempty(qubits)
+            throw(ArgumentError("ParametricMultiQubitGate requires at least one qubit"))
+        end
+        if length(unique(qubits)) != length(qubits)
+            throw(ArgumentError("Qubit indices must be unique, got duplicate qubits in $qubits"))
+        end
+        if any(q -> q <= 0, qubits)
+            throw(ArgumentError("All qubit indices must be positive, got $qubits"))
+        end
+        new(qubits, gate_type, params)
+    end
+end
+export ParametricMultiQubitGate
+
+# ============================================
 # QuantumCircuitStructure
 # ============================================
 """

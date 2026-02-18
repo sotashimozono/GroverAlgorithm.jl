@@ -69,6 +69,52 @@ function to_itensor_op(gate::FourQubitGate, sites)
     )
 end
 
+# --- N-Qubit Gates (General) ---
+function to_itensor_op(gate::MultiQubitGate, sites)
+    # Validate qubit indices
+    for q in gate.qubits
+        if q < 1 || q > length(sites)
+            throw(
+                ArgumentError(
+                    "Qubit index $q is out of range [1, $(length(sites))]",
+                ),
+            )
+        end
+    end
+    
+    # Apply gate to specified qubits
+    return op(string(gate.gate_type), [sites[q] for q in gate.qubits]...)
+end
+
+function to_itensor_op(gate::ParametricMultiQubitGate, sites)
+    # Validate qubit indices
+    for q in gate.qubits
+        if q < 1 || q > length(sites)
+            throw(
+                ArgumentError(
+                    "Qubit index $q is out of range [1, $(length(sites))]",
+                ),
+            )
+        end
+    end
+    
+    t = gate.gate_type
+    p = gate.params
+    
+    # For now, assume the gate accepts standard parameter names
+    # This can be extended based on specific gate requirements
+    if length(p) == 1
+        return op(string(t), [sites[q] for q in gate.qubits]...; θ=p[1])
+    elseif length(p) == 2
+        return op(string(t), [sites[q] for q in gate.qubits]...; θ=p[1], ϕ=p[2])
+    elseif length(p) == 3
+        return op(string(t), [sites[q] for q in gate.qubits]...; θ=p[1], ϕ=p[2], λ=p[3])
+    else
+        # For gates with arbitrary number of parameters, pass them as is
+        return op(string(t), [sites[q] for q in gate.qubits]...)
+    end
+end
+
 """
     execute_circuit(circuit::QuantumCircuit, sites::Vector{<:Index}; init_state=nothing) -> MPS
 
