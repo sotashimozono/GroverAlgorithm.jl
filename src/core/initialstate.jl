@@ -56,9 +56,20 @@ Represents a product state where each qubit is individually specified.
 - `labels::Vector{String}`: Vector of state labels, one for each qubit.
   Each label should conform to ITensors' op-defined state names.
 
-# Example
+# Usage
+ProductState is typically used as a single element in the `initial_states` vector
+to specify all qubits at once. To specify different states per qubit individually,
+use a vector of `BasisState` or `NamedState` instances instead.
+
+# Examples
 ```julia
-ProductState(["0", "1", "+"])  # |0⟩ ⊗ |1⟩ ⊗ |+⟩
+# Use ProductState as a single element for all qubits:
+initial = AbstractInitialState[ProductState(["0", "1", "+"])]
+circuit = QuantumCircuit(3, AbstractQuantumGate[], initial)
+
+# To specify per-qubit states individually, use BasisState:
+initial = AbstractInitialState[BasisState("0"), BasisState("1"), BasisState("+")]
+circuit = QuantumCircuit(3, AbstractQuantumGate[], initial)
 ```
 """
 struct ProductState <: AbstractInitialState

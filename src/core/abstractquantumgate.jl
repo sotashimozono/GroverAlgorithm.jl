@@ -159,6 +159,20 @@ Fields
 - `gates::Vector{AbstractQuantumGate}`: A list of quantum gates to be applied sequentially.
 - `initial_states::Vector{AbstractInitialState}`: Initial state specification for each qubit.
   Defaults to `[BasisState("0")]` for all qubits if not specified.
+
+# Initial States Usage
+The `initial_states` field can be specified in two ways:
+1. **Single state for all qubits**: Use a vector with one element
+   ```julia
+   initial = AbstractInitialState[BasisState("0")]  # All qubits in |0⟩
+   initial = AbstractInitialState[ProductState(["0", "1", "+"])]  # Qubits in |0⟩, |1⟩, |+⟩
+   ```
+2. **Per-qubit states**: Use a vector with one element per qubit
+   ```julia
+   initial = AbstractInitialState[BasisState("0"), BasisState("1")]  # First qubit |0⟩, second |1⟩
+   ```
+
+Note: ProductState should be used as a single element, not within a multi-element vector.
 """
 struct QuantumCircuit
     nqubits::Int
