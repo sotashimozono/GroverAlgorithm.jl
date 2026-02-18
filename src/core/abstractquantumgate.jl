@@ -151,15 +151,34 @@ export FourQubitGate
 # ============================================
 """
     QuantumCircuit
+
 Represents a quantum circuit consisting of a fixed number of qubits and a sequence of gates.
 
 Fields
 - `nqubits::Int`: The total number of qubits in the circuit.
 - `gates::Vector{AbstractQuantumGate}`: A list of quantum gates to be applied sequentially.
+- `initial_states::Vector{AbstractInitialState}`: Initial state specification for each qubit.
+  Defaults to `[BasisState("0")]` for all qubits if not specified.
 """
 struct QuantumCircuit
     nqubits::Int
     gates::Vector{AbstractQuantumGate}
+    initial_states::Vector{AbstractInitialState}
+    
+    # Constructor with default initial states
+    function QuantumCircuit(nqubits::Int, gates::Vector{AbstractQuantumGate})
+        initial_states = [BasisState("0")]
+        new(nqubits, gates, initial_states)
+    end
+    
+    # Constructor with explicit initial states
+    function QuantumCircuit(
+        nqubits::Int,
+        gates::Vector{AbstractQuantumGate},
+        initial_states::Vector{AbstractInitialState},
+    )
+        new(nqubits, gates, initial_states)
+    end
 end
 export QuantumCircuit
 
