@@ -74,14 +74,10 @@ function to_itensor_op(gate::MultiQubitGate, sites)
     # Validate qubit indices
     for q in gate.qubits
         if q < 1 || q > length(sites)
-            throw(
-                ArgumentError(
-                    "Qubit index $q is out of range [1, $(length(sites))]",
-                ),
-            )
+            throw(ArgumentError("Qubit index $q is out of range [1, $(length(sites))]"))
         end
     end
-    
+
     # Apply gate to specified qubits
     return op(string(gate.gate_type), [sites[q] for q in gate.qubits]...)
 end
@@ -90,17 +86,13 @@ function to_itensor_op(gate::ParametricMultiQubitGate, sites)
     # Validate qubit indices
     for q in gate.qubits
         if q < 1 || q > length(sites)
-            throw(
-                ArgumentError(
-                    "Qubit index $q is out of range [1, $(length(sites))]",
-                ),
-            )
+            throw(ArgumentError("Qubit index $q is out of range [1, $(length(sites))]"))
         end
     end
-    
+
     t = gate.gate_type
     p = gate.params
-    
+
     # For now, assume the gate accepts standard parameter names
     # This can be extended based on specific gate requirements
     if length(p) == 1
@@ -133,7 +125,9 @@ Simulates the quantum circuit using ITensors.
 # Throws
 - `ArgumentError`: If circuit qubit count doesn't match sites count.
 """
-function execute_circuit(circuit::QuantumCircuit, sites::Vector{<:Index}; init_state=nothing)
+function execute_circuit(
+    circuit::QuantumCircuit, sites::Vector{<:Index}; init_state=nothing
+)
     if circuit.nqubits != length(sites)
         throw(
             ArgumentError(
@@ -141,7 +135,7 @@ function execute_circuit(circuit::QuantumCircuit, sites::Vector{<:Index}; init_s
             ),
         )
     end
-    
+
     # Determine initial state
     if init_state !== nothing
         # Use provided init_state (backward compatibility)
@@ -154,7 +148,7 @@ function execute_circuit(circuit::QuantumCircuit, sites::Vector{<:Index}; init_s
         else
             throw(
                 ArgumentError(
-                    "init_state must be a String, Vector{String}, or AbstractInitialState",
+                    "init_state must be a String, Vector{String}, or AbstractInitialState"
                 ),
             )
         end
@@ -191,7 +185,7 @@ function execute_circuit(circuit::QuantumCircuit, sites::Vector{<:Index}; init_s
             end
         end
     end
-    
+
     ops = [to_itensor_op(g, sites) for g in circuit.gates]
     psi = MPS(sites, state_vector)
     psi_final = apply(ops, psi; cutoff=1e-15)

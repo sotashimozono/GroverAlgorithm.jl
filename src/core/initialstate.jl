@@ -167,7 +167,7 @@ function to_latex_label(state::ProductState, qubit_idx::Int)::String
     if qubit_idx > length(state.labels)
         throw(
             ArgumentError(
-                "Qubit index $qubit_idx exceeds ProductState size $(length(state.labels))",
+                "Qubit index $qubit_idx exceeds ProductState size $(length(state.labels))"
             ),
         )
     end

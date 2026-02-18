@@ -177,13 +177,17 @@ gate = MultiQubitGate([1, 3, 5, 7], :CustomGate)
 struct MultiQubitGate <: AbstractQuantumGate
     qubits::Vector{Int}
     gate_type::Symbol
-    
+
     function MultiQubitGate(qubits::Vector{Int}, gate_type::Symbol)
         if isempty(qubits)
             throw(ArgumentError("MultiQubitGate requires at least one qubit"))
         end
         if length(unique(qubits)) != length(qubits)
-            throw(ArgumentError("Qubit indices must be unique, got duplicate qubits in $qubits"))
+            throw(
+                ArgumentError(
+                    "Qubit indices must be unique, got duplicate qubits in $qubits"
+                ),
+            )
         end
         if any(q -> q <= 0, qubits)
             throw(ArgumentError("All qubit indices must be positive, got $qubits"))
@@ -216,13 +220,19 @@ struct ParametricMultiQubitGate <: AbstractQuantumGate
     qubits::Vector{Int}
     gate_type::Symbol
     params::Vector{Float64}
-    
-    function ParametricMultiQubitGate(qubits::Vector{Int}, gate_type::Symbol, params::Vector{Float64})
+
+    function ParametricMultiQubitGate(
+        qubits::Vector{Int}, gate_type::Symbol, params::Vector{Float64}
+    )
         if isempty(qubits)
             throw(ArgumentError("ParametricMultiQubitGate requires at least one qubit"))
         end
         if length(unique(qubits)) != length(qubits)
-            throw(ArgumentError("Qubit indices must be unique, got duplicate qubits in $qubits"))
+            throw(
+                ArgumentError(
+                    "Qubit indices must be unique, got duplicate qubits in $qubits"
+                ),
+            )
         end
         if any(q -> q <= 0, qubits)
             throw(ArgumentError("All qubit indices must be positive, got $qubits"))
@@ -264,13 +274,13 @@ struct QuantumCircuit
     nqubits::Int
     gates::Vector{AbstractQuantumGate}
     initial_states::Vector{AbstractInitialState}
-    
+
     # Constructor with default initial states
     function QuantumCircuit(nqubits::Int, gates::Vector{AbstractQuantumGate})
         initial_states = [BasisState("0")]
         new(nqubits, gates, initial_states)
     end
-    
+
     # Constructor with explicit initial states
     function QuantumCircuit(
         nqubits::Int,

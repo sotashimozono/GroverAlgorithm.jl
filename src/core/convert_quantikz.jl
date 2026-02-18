@@ -252,7 +252,7 @@ function to_quantikz(circuit::QuantumCircuit)::String
                 label = "\\ket{q_$i}"
             end
         end
-        
+
         # 空文字列をフィルタ（マルチ量子ビットゲートのスパン部分）
         filtered = filter(s -> s != "", qubit_lines[i])
         line = join(filtered, " & ")
@@ -296,7 +296,7 @@ function to_tikz_picture(circuit::QuantumCircuit)::TikzPicture
                 label = "\\ket{q_$i}"
             end
         end
-        
+
         filtered = filter(s -> s != "", qubit_lines[i])
         line_data = join(filtered, " \\& ")
         push!(processed_lines, "\\lstick{$label} \\& " * line_data * " \\& \\qw")
