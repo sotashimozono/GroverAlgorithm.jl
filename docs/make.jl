@@ -14,7 +14,7 @@ makedocs(;
         canonical="https://codes.sota-shimozono.com/GroverAlgorithm.jl/stable/",
         prettyurls=get(ENV, "CI", "false") == "true",
         ansicolor=true,
-        themes = ["light", "dark"],
+        themes=["light", "dark"],
         mathengine=MathJax3(
             Dict(
                 :tex => Dict(
