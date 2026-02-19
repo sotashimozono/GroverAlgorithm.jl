@@ -23,7 +23,7 @@ function test_actions(circuit)
     for a in 0:1, b in 0:1, c in 0:1
         initial = AbstractInitialState[ProductState([string(a), string(b), string(c)])]
         set_state!(circuit, initial)
-        
+
         sites = siteinds("Qubit", 3)
         psi = execute_circuit(circuit, sites)
 
