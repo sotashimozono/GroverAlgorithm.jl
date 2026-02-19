@@ -5,3 +5,9 @@
     border: 1px solid rgba(255, 255, 255, 0.1); /* 控えめな枠線 */
     margin-bottom: 12px;     /* 下の名前との距離 */
 }
+
+.tikz-result svg {
+    width: 100%;
+    height: auto;
+    background-color: white; /* 念のためCSSでも白背景を指定 */
+}
