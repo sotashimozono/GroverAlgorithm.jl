@@ -1,6 +1,7 @@
 # GroverAlgorithm.jl
 
-Integrated Julia package for quantum circuit simulation and visualization.
+Julia Module for simulating and visualizing quantum circuit.
+As a backend, ITensors.jl/ITensorMPS.jl and Quantikz are required.
 
 ## Features
 
@@ -30,41 +31,14 @@ counts = measure(psi, Sampling(1000))
 println(counts)  # Dict("00" => ~500, "11" => ~500)
 
 # Visualize
-println(to_quantikz(circuit))
+tp = to_quantikz(circuit)
 ```
 
 ## Installation
 
 ```julia
 using Pkg
-Pkg.add("GroverAlgorithm")
-```
-
-## Documentation Structure
-
-### Basics
-
-- [**Getting Started**](getting_started.md) - Create your first quantum circuit and learn how it appears in ITensors and Quantikz
-
-### Core Concepts
-
-- [**Quantum Gates and Circuits**](structures.md) - Details of gate types and circuit structures
-- [**Initial States**](initialstates.md) - Define and customize initial states
-- [**Measurements**](measurements.md) - Various measurement methods
-
-### Usage
-
-- [**ITensor Conversion**](itensor_conversion.md) - Running simulations with ITensors
-- [**Quantikz Visualization**](quantikz_visualization.md) - Generating and customizing circuit diagrams
-
-### Examples
-
-- [**Examples and Tutorials**](examples.md) - Practical examples including Toffoli gates and Grover's algorithm
-
-## API Reference
-
-```@autodocs
-Modules = [GroverAlgorithm]
+Pkg.add(url="https://github.com/sotashimozono/GroverAlgorithm.jl")
 ```
 
 ## Related Links
