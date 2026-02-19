@@ -13,7 +13,7 @@ As a backend, ITensors.jl/ITensorMPS.jl and Quantikz are required.
 
 ## Quick Start
 
-```julia
+```@example index
 using GroverAlgorithm
 using ITensors, ITensorMPS
 
@@ -31,7 +31,8 @@ counts = measure(psi, Sampling(1000))
 println(counts)  # Dict("00" => ~500, "11" => ~500)
 
 # Visualize
-tp = to_quantikz(circuit)
+# tp = to_quantikz(circuit) : quantikz src
+tp = to_tikz_picture(circuit)
 ```
 
 ## Installation
