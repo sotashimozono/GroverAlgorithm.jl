@@ -29,23 +29,31 @@ makedocs(;
         assets=["assets/favicon.ico"],
     ),
     modules=[GroverAlgorithm],
-    #=
     pages=[
         "Home" => "index.md",
-        "Getting Started" => "getting_started.md",
-        "Core Concepts" => [
-            "Quantum Gates and Circuits" => "structures.md",
-            "Initial States" => "initialstates.md",
-            "Measurements" => "measurements.md",
+        #"Getting Started" => "getting_started.md",
+        #"Core Concepts" => [
+        #    "Quantum Gates and Circuits" => "structures.md",
+        #    "Initial States" => "initialstates.md",
+        #    "Measurements" => "measurements.md",
+        #],
+        #"Usage" => [
+        #    "ITensor Conversion" => "itensor_conversion.md",
+        #    "Quantikz Visualization" => "quantikz_visualization.md",
+        #],
+        "API References" => [
+            "structs" => [
+                "qubit" => "api/core/qubit.md",
+                "gates" => "api/core/gates.md",
+                "measurement" => "api/core/measurement.md",
+            ]
+            "ITensors IO" => [
+                "Get Gate" => "api/ITensorIO/get_gate.md",
+                "Measurements" => "api/ITensorIO/measure.md",
+            ]
         ],
-        "Usage" => [
-            "ITensor Conversion" => "itensor_conversion.md",
-            "Quantikz Visualization" => "quantikz_visualization.md",
-        ],
-        "Examples and Tutorials" => "examples.md",
+        #"Examples and Tutorials" => "examples.md",
     ],
-    =#
-    pages = ["Home" => "index.md", "try" => "try.md"],
     checkdocs = :none,
 )
 
