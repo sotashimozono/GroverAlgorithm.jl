@@ -6,8 +6,18 @@
     margin-bottom: 12px;     /* 下の名前との距離 */
 }
 
-.tikz-result svg {
-    width: 100%;
+article#documenter-page img[src$=".svg"][alt*="Example block"] {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    
+    width: 60%;
+    min-width: 300px;
+    max-width: 100%;
     height: auto;
-    background-color: white; /* 念のためCSSでも白背景を指定 */
+    
+    background-color: white; 
+    padding: 15px;         
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
