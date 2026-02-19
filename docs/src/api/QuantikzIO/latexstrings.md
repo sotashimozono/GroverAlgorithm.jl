@@ -1,7 +1,7 @@
 # LaTeXStrings
 
 Here we define methods which converts `QuantumCircuit` object into quantikz LaTeX source code.
-When you want Quantikz Picture directly, refer [[quantikz.md]].
+When you want Quantikz Picture directly, refer [quantikz page](quantikz.md).
 
 ## Documents
 

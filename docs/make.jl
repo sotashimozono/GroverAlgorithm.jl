@@ -57,7 +57,7 @@ makedocs(;
             ]
             "Quantikz Visualization" => [
                 "latex strings" => "api/QuantikzIO/latexstrings.md",
-                "uits" => "api/QuantikzIO/quantikz.md",
+                "Quantikz Output" => "api/QuantikzIO/quantikz.md",
             ]
         ],
     ],
