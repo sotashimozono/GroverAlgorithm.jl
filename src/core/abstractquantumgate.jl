@@ -270,11 +270,20 @@ The `initial_states` field can be specified in two ways:
 
 Note: ProductState should be used as a single element, not within a multi-element vector.
 """
-struct QuantumCircuit
+mutable struct QuantumCircuit
     nqubits::Int
     gates::Vector{AbstractQuantumGate}
     initial_states::Vector{AbstractInitialState}
 
+    function QuantumCircuit(nqubits::Int)
+        gates = AbstractQuantumGate[]
+        initial_states = [BasisState("0")]
+        new(nqubits, gates, initial_states)
+    end
+    function QuantumCircuit(nqubits::Int, initial_states::Vector{AbstractInitialState})
+        gates = AbstractQuantumGate[]
+        new(nqubits, gates, initial_states)
+    end
     # Constructor with default initial states
     function QuantumCircuit(nqubits::Int, gates::Vector{AbstractQuantumGate})
         initial_states = [BasisState("0")]
@@ -303,3 +312,14 @@ function add_gate!(circuit::QuantumCircuit, gate::AbstractQuantumGate)
     return circuit
 end
 export add_gate!
+
+"""
+    set_state!(circuit::QuantumCircuit, initial_states::Vector{AbstractInitialState})
+Sets the initial state of the quantum circuit. This replaces any existing initial state specification.
+Returns the modified `QuantumCircuit` object to allow for method chaining.
+"""
+function set_state!(circuit::QuantumCircuit, initial_states::Vector{AbstractInitialState})
+    circuit.initial_states = initial_states
+    return circuit
+end
+export set_state!

@@ -1,4 +1,3 @@
-using GroverAlgorithm, Test
 using ITensors, ITensorMPS
 
 @testset "Initial State Abstractions" begin

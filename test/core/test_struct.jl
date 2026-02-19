@@ -63,23 +63,3 @@ end
         @test circuit.gates isa Vector{AbstractQuantumGate}
     end
 end
-#=
-@testset "Invalid Inputs" begin
-    # 制御ビットとターゲットビットが同じ場合はエラーにしたい（将来的な実装への布石）
-    # 現状の実装でエラーを投げないなら、将来の自分へのメモとして書く
-    @test_throws ArgumentError ControlledGate(1, 1, :CNOT)
-
-    # 負のビット番号や 0 を禁止する
-    @test_throws ArgumentError SingleQubitGate(0, :X)
-    @test_throws ArgumentError SingleQubitGate(-1, :Z)
-end
-# ゲートに関連する量子ビットを配列で返す共通関数を想定
-occupied_qubits(g::SingleQubitGate) = [g.qubit]
-occupied_qubits(g::TwoQubitGate) = [g.qubit1, g.qubit2]
-occupied_qubits(g::ControlledGate) = [g.control, g.target]
-
-@testset "Common Interface" begin
-    @test sort(occupied_qubits(ThreeQubitGate(3, 1, 2, :Toffoli))) == [1, 2, 3]
-    @test length(occupied_qubits(FourQubitGate(1, 2, 3, 4, :CCCNOT))) == 4
-end
-=#
