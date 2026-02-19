@@ -29,7 +29,7 @@ makedocs(;
             ),
         ),
         assets=["assets/favicon.ico", "assets/custom.css"],
-        sidebar_sitename = true,
+        sidebar_sitename=true,
     ),
     modules=[GroverAlgorithm],
     pages=[
@@ -61,7 +61,7 @@ makedocs(;
             ]
         ],
     ],
-    checkdocs = :none,
+    checkdocs=:none,
 )
 
 deploydocs(; repo="github.com/sotashimozono/GroverAlgorithm.jl.git", devbranch="main")
