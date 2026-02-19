@@ -8,8 +8,10 @@ using LaTeXStrings, TikzPictures
 assets_dir = joinpath(@__DIR__, "src", "assets")
 mkpath(assets_dir)
 favicon_path = joinpath(assets_dir, "favicon.ico")
+logo_path = joinpath(assets_dir, "logo.png")
 
 Downloads.download("https://github.com/sotashimozono.png", favicon_path)
+Downloads.download("https://github.com/sotashimozono.png", logo_path)
 
 makedocs(;
     sitename="GroverAlgorithm.jl",
@@ -27,6 +29,7 @@ makedocs(;
             ),
         ),
         assets=["assets/favicon.ico"],
+        sidebar_sitename = true,
     ),
     modules=[GroverAlgorithm],
     pages=[
@@ -41,6 +44,7 @@ makedocs(;
         #    "ITensor Conversion" => "itensor_conversion.md",
         #    "Quantikz Visualization" => "quantikz_visualization.md",
         #],
+        #"Examples and Tutorials" => "examples.md",
         "API References" => [
             "structs" => [
                 "qubit" => "api/core/qubit.md",
@@ -51,8 +55,11 @@ makedocs(;
                 "Get Gate" => "api/ITensorIO/get_gate.md",
                 "Measurements" => "api/ITensorIO/measure.md",
             ]
+            "Quantikz Visualization" => [
+                "latex strings" => "api/QuantikzIO/latexstrings.md",
+                "uits" => "api/QuantikzIO/quantikz.md",
+            ]
         ],
-        #"Examples and Tutorials" => "examples.md",
     ],
     checkdocs = :none,
 )
