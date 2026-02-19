@@ -2,6 +2,9 @@ using GroverAlgorithm
 using Documenter
 using Downloads
 
+using ITensors, ITensorMPS
+using LaTeXStrings, TikzPictures
+
 assets_dir = joinpath(@__DIR__, "src", "assets")
 mkpath(assets_dir)
 favicon_path = joinpath(assets_dir, "favicon.ico")
@@ -26,6 +29,7 @@ makedocs(;
         assets=["assets/favicon.ico"],
     ),
     modules=[GroverAlgorithm],
+    #=
     pages=[
         "Home" => "index.md",
         "Getting Started" => "getting_started.md",
@@ -40,6 +44,9 @@ makedocs(;
         ],
         "Examples and Tutorials" => "examples.md",
     ],
+    =#
+    pages = ["Home" => "index.md", "try" => "try.md"],
+    checkdocs = :none,
 )
 
 deploydocs(; repo="github.com/sotashimozono/GroverAlgorithm.jl.git", devbranch="main")

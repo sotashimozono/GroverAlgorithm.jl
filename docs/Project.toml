@@ -2,6 +2,10 @@
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Downloads = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 GroverAlgorithm = "480f6047-bde0-43c5-a5a8-f20cfea8349f"
+ITensorMPS = "0d1a4710-d33b-49a5-8f18-73bdf49b47e2"
+ITensors = "9136182c-28ba-11e9-034c-db9fb085ebd5"
+LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
+TikzPictures = "37f6aa50-8035-52d0-81c2-5a1d08754b2d"
 
 [sources]
 GroverAlgorithm = {path = ".."}
