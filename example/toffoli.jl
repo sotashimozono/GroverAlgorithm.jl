@@ -1,11 +1,16 @@
-using Printf
-using GroverAlgorithm
-using ITensors, ITensorMPS
-
+# # Toffoli Gate Example
 # Here we define the Toffoli gate (CCNOT) using the GroverAlgorithm package
 # This is an example of how to use the package.
 # Toffoli gate is available in ITensorMPS.jl as a built-in gate.
 # Let's create a Toffoli gate and check its action on the basis states.
+
+# ## Using the built-in Toffoli gate
+# In ITensorMPS.jl, the Toffoli gate is available as a built-in three-qubit gate. We can simply add it to our quantum circuit and execute it.
+
+using Printf
+using GroverAlgorithm
+using ITensors, ITensorMPS
+
 circuit = QuantumCircuit(3)
 add_gate!(circuit, ThreeQubitGate(1, 2, 3, :Toffoli))
 
@@ -33,10 +38,9 @@ function test_actions(circuit)
     end
 end
 
-circuit = QuantumCircuit(3)
-add_gate!(circuit, ThreeQubitGate(1, 2, 3, :Toffoli))
 test_actions(circuit)
 
+# ## Toffoli gate decomposition
 # Then, Lets's construct the Toffoli gate using the standard decomposition into CNOT and single-qubit gates,
 # and verify that it produces the same results as the built-in Toffoli gate.
 function toffoli_decomposed(circuit)
@@ -60,6 +64,8 @@ function toffoli_decomposed(circuit)
 end
 circuit_decomposed = QuantumCircuit(3)
 toffoli_decomposed(circuit_decomposed)
-test_actions(circuit_decomposed)
 
 tp = to_tikz_picture(circuit_decomposed)
+
+# Let's test the action of the decomposed Toffoli gate on the basis states to verify that it behaves the same as the built-in Toffoli gate.
+test_actions(circuit_decomposed)

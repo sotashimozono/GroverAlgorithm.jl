@@ -4,7 +4,7 @@ Pkg.activate("../")
 using Literate, GroverAlgorithm, ITensors, ITensorMPS
 
 base_dir = pkgdir(GroverAlgorithm)
-output_dir = joinpath(base_dir, "docs", "src", "examples")
+output_dir = joinpath(base_dir, "docs", "src", "example")
 mkpath(output_dir)
 
 Literate.markdown("toffoli.jl", output_dir; documenter=true)
