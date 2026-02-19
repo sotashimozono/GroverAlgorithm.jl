@@ -83,4 +83,3 @@ struct ProjectiveMeasurement <: AbstractMeasurement
     end
 end
 export ProjectiveMeasurement
-
