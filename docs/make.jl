@@ -28,7 +28,7 @@ makedocs(;
                 ),
             ),
         ),
-        assets=["assets/favicon.ico"],
+        assets=["assets/favicon.ico", "assets/custom.css"],
         sidebar_sitename = true,
     ),
     modules=[GroverAlgorithm],
