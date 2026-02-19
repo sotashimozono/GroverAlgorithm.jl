@@ -90,7 +90,7 @@ function get_latex_commands(gate::ControlledGate, nqubits::Int)
     targ = gate.target
     offset = targ - ctrl
     target_symbol = controlled_gate_target(gate.gate_type)
-    
+
     commands = fill("\\qw", nqubits)
     commands[ctrl] = "\\ctrl{$offset}"
     commands[targ] = target_symbol
@@ -103,7 +103,7 @@ function get_latex_commands(gate::ParametricControlledGate, nqubits::Int)
     targ = gate.target
     offset = targ - ctrl
     gate_symbol = gate_to_latex(gate.gate_type, gate.params)
-    
+
     commands = fill("\\qw", nqubits)
     commands[ctrl] = "\\ctrl{$offset}"
     commands[targ] = "\\gate{$gate_symbol}"
@@ -115,7 +115,7 @@ function get_latex_commands(gate::TwoQubitGate, nqubits::Int)
     q1 = min(gate.qubit1, gate.qubit2)
     q2 = max(gate.qubit1, gate.qubit2)
     commands = fill("\\qw", nqubits)
-    
+
     if gate.gate_type in [:SWAP, :Swap]
         commands[q1] = "\\swap{$(q2-q1)}"
         commands[q2] = "\\targX{}"
@@ -138,7 +138,7 @@ function get_latex_commands(gate::ParametricTwoQubitGate, nqubits::Int)
     q1 = min(gate.qubit1, gate.qubit2)
     q2 = max(gate.qubit1, gate.qubit2)
     gate_label = gate_to_latex(gate.gate_type, gate.params)
-    
+
     commands = fill("\\qw", nqubits)
     commands[q1] = "\\gate[2]{$gate_label}"
     commands[q2] = ""
@@ -149,7 +149,7 @@ end
 function get_latex_commands(gate::ThreeQubitGate, nqubits::Int)
     qubits = sort([gate.qubit1, gate.qubit2, gate.qubit3])
     commands = fill("\\qw", nqubits)
-    
+
     if gate.gate_type in [:Toffoli, :CCNOT, :CCX, :TOFF]
         # Toffoli: 最初の2つがコントロール、最後がターゲット
         ctrl1, ctrl2, targ = qubits
@@ -176,7 +176,7 @@ end
 function get_latex_commands(gate::FourQubitGate, nqubits::Int)
     qubits = sort([gate.qubit1, gate.qubit2, gate.qubit3, gate.qubit4])
     commands = fill("\\qw", nqubits)
-    
+
     if gate.gate_type == :CCCNOT
         # CCCNOT: 最初の3つがコントロール、最後がターゲット
         ctrl1, ctrl2, ctrl3, targ = qubits
@@ -228,11 +228,11 @@ Each gate occupies its own column.
 function build_circuit_matrix_serial(circuit::QuantumCircuit)
     nqubits = circuit.nqubits
     qubit_lines = [String[] for _ in 1:nqubits]
-    
+
     for gate in circuit.gates
         add_gate_column!(qubit_lines, gate, nqubits)
     end
-    
+
     return qubit_lines
 end
 
@@ -248,31 +248,31 @@ function build_circuit_matrix_packed(circuit::QuantumCircuit)
     depths = zeros(Int, nqubits)
     # Store gates with their assigned column
     gate_assignments = Tuple{Int,AbstractQuantumGate}[]
-    
+
     for gate in circuit.gates
         # Get the range of qubits this gate occupies
         q_min, q_max = get_involved_qubits(gate)
-        
+
         # Find the maximum depth among the qubits this gate affects
         max_depth = maximum(depths[q_min:q_max])
-        
+
         # Place this gate in the next column after max_depth
         target_column = max_depth + 1
         push!(gate_assignments, (target_column, gate))
-        
+
         # Update the depths for all affected qubits
         depths[q_min:q_max] .= target_column
     end
-    
+
     # Determine the total number of columns needed
     max_columns = maximum(depths)
-    
+
     # Build the circuit matrix
     circuit_matrix = [String[] for _ in 1:nqubits]
     for i in 1:nqubits
         circuit_matrix[i] = fill("\\qw", max_columns)
     end
-    
+
     # Place each gate in its assigned column
     for (col, gate) in gate_assignments
         commands = get_latex_commands(gate, nqubits)
@@ -284,7 +284,7 @@ function build_circuit_matrix_packed(circuit::QuantumCircuit)
             end
         end
     end
-    
+
     return circuit_matrix
 end
 
@@ -310,7 +310,7 @@ This function:
 """
 function to_quantikz(circuit::QuantumCircuit; layout::Symbol=:packed)::String
     nqubits = circuit.nqubits
-    
+
     # Build circuit matrix based on layout mode
     if layout in [:serial, :horizontal]
         qubit_lines = build_circuit_matrix_serial(circuit)
@@ -366,7 +366,7 @@ The resulting `TikzPicture` can be rendered in LaTeX documents to visualize the 
 """
 function to_tikz_picture(circuit::QuantumCircuit; layout::Symbol=:packed)::TikzPicture
     nqubits = circuit.nqubits
-    
+
     # Build circuit matrix based on layout mode
     if layout in [:serial, :horizontal]
         qubit_lines = build_circuit_matrix_serial(circuit)
