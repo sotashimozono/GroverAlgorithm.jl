@@ -34,7 +34,7 @@ makedocs(;
     modules=[GroverAlgorithm],
     pages=[
         "Home" => "index.md",
-        #"Getting Started" => "getting_started.md",
+        "Getting Started" => "getting_started.md",
         #"Core Concepts" => [
         #    "Quantum Gates and Circuits" => "structures.md",
         #    "Initial States" => "initialstates.md",
