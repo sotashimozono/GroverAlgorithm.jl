@@ -9,6 +9,9 @@ export to_itensor_op
 
 # --- Single Qubit & Spin ---
 function to_itensor_op(gate::SingleQubitGate, sites)
+    if gate.gate_type == :Tdag
+        return dag(op("T", sites[gate.qubit]))
+    end
     return op(string(gate.gate_type), sites[gate.qubit])
 end
 function to_itensor_op(gate::ParametricSingleGate, sites)
