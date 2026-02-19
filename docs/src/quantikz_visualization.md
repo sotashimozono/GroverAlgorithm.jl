@@ -1,24 +1,22 @@
 # Quantikz Visualization
 
-量子回路をLaTeX/quantikzパッケージを使用して可視化します。
+In GroverAlgorithm.jl, you can visualize quantum circuit using LaTeX/quantikz.
 
 ## Core Functions
-
-### to_quantikz
 
 ```@docs
 to_quantikz
 ```
 
-#### 使用例
+using this function, you can get LaTeX code.
 
 ```julia
-# 基本的な回路
+# circuit object
 circuit = QuantumCircuit(2, AbstractQuantumGate[])
 add_gate!(circuit, SingleQubitGate(1, :H))
 add_gate!(circuit, ControlledGate(1, 2, :CNOT))
 
-# LaTeXコードの生成
+# generate LaTeX code
 latex_code = to_quantikz(circuit)
 println(latex_code)
 
@@ -29,13 +27,9 @@ println(latex_code)
 # \end{quantikz}
 ```
 
-### to_tikz_picture
-
 ```@docs
 to_tikz_picture
 ```
-
-#### 使用例
 
 ```julia
 using TikzPictures
