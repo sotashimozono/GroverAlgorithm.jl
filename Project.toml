@@ -1,6 +1,6 @@
 name = "GroverAlgorithm"
 uuid = "480f6047-bde0-43c5-a5a8-f20cfea8349f"
-version = "0.2.2"
+version = "0.2.3"
 authors = ["sota <shimozono-sota631@g.ecc.u-tokyo.ac.jp>"]
 
 [deps]
@@ -10,6 +10,7 @@ LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 TikzPictures = "37f6aa50-8035-52d0-81c2-5a1d08754b2d"
 
 [compat]
+TestShards = "0.3"
 ITensorMPS = "0.3.26, 0.4"
 ITensors = "0.9.18"
 LaTeXStrings = "1.4.0"
@@ -17,6 +18,7 @@ TikzPictures = "3.5.1"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+TestShards = "acceef1d-f5e0-4fe4-a546-818dc56ce7b2"
 
 [targets]
-test = ["Test"]
+test = ["Test", "TestShards"]
