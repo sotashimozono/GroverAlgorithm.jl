@@ -192,7 +192,7 @@ struct MultiQubitGate <: AbstractQuantumGate
         if any(q -> q <= 0, qubits)
             throw(ArgumentError("All qubit indices must be positive, got $qubits"))
         end
-        new(qubits, gate_type)
+        return new(qubits, gate_type)
     end
 end
 export MultiQubitGate
@@ -237,7 +237,7 @@ struct ParametricMultiQubitGate <: AbstractQuantumGate
         if any(q -> q <= 0, qubits)
             throw(ArgumentError("All qubit indices must be positive, got $qubits"))
         end
-        new(qubits, gate_type, params)
+        return new(qubits, gate_type, params)
     end
 end
 export ParametricMultiQubitGate
@@ -278,16 +278,16 @@ mutable struct QuantumCircuit
     function QuantumCircuit(nqubits::Int)
         gates = AbstractQuantumGate[]
         initial_states = [BasisState("0")]
-        new(nqubits, gates, initial_states)
+        return new(nqubits, gates, initial_states)
     end
     function QuantumCircuit(nqubits::Int, initial_states::Vector{AbstractInitialState})
         gates = AbstractQuantumGate[]
-        new(nqubits, gates, initial_states)
+        return new(nqubits, gates, initial_states)
     end
     # Constructor with default initial states
     function QuantumCircuit(nqubits::Int, gates::Vector{AbstractQuantumGate})
         initial_states = [BasisState("0")]
-        new(nqubits, gates, initial_states)
+        return new(nqubits, gates, initial_states)
     end
 
     # Constructor with explicit initial states
@@ -296,7 +296,7 @@ mutable struct QuantumCircuit
         gates::Vector{AbstractQuantumGate},
         initial_states::Vector{AbstractInitialState},
     )
-        new(nqubits, gates, initial_states)
+        return new(nqubits, gates, initial_states)
     end
 end
 export QuantumCircuit

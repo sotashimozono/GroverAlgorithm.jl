@@ -52,7 +52,7 @@ struct Sampling <: AbstractMeasurement
         if shots <= 0
             throw(ArgumentError("Number of shots must be positive, got $shots"))
         end
-        new(shots)
+        return new(shots)
     end
 end
 export Sampling
@@ -79,7 +79,7 @@ struct ProjectiveMeasurement <: AbstractMeasurement
         if qubit <= 0
             throw(ArgumentError("Qubit index must be positive, got $qubit"))
         end
-        new(qubit)
+        return new(qubit)
     end
 end
 export ProjectiveMeasurement

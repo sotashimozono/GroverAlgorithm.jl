@@ -66,4 +66,3 @@ makedocs(;
 )
 
 deploydocs(; repo="github.com/sotashimozono/GroverAlgorithm.jl.git", devbranch="main")
-
